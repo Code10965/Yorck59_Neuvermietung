@@ -18,7 +18,7 @@ function setupCrossfadeGroups() {
 }
 
 // ---------- Sanftes Einblenden von Abschnitten beim Scrollen ----------
-// Sobald ein Abschnitt (data-reveal) zu ~20% sichtbar ist, bekommt er
+// Sobald ein Abschnitt (data-reveal) zu ~12% sichtbar ist, bekommt er
 // die Klasse "visible" - der Rest (Verzögerung pro Kind-Element) steht in styles.css.
 function setupScrollReveal() {
   const targets = document.querySelectorAll("[data-reveal]");
@@ -36,7 +36,7 @@ function setupScrollReveal() {
         }
       });
     },
-    { threshold: 0.20 }
+    { threshold: 0.12 }
   );
 
   targets.forEach((el) => observer.observe(el));
@@ -77,6 +77,7 @@ function setupCopyButton() {
 const media = {
   Garten: {
     type: "images",
+    label: "Foto — Garten",
     items: [
       "Garten/Garden_1.jpg",
       "Garten/Garden_2.jpg",
@@ -86,16 +87,18 @@ const media = {
   },
   Vorne: {
     type: "images",
+    label: "Foto — Vorne",
     items: [
-      "Vorne/Living_front_4.jpg",
       "Vorne/Living_front_1.jpg",
       "Vorne/Living_front_2.jpg",
       "Vorne/Living_front_3.jpg",
+      "Vorne/Living_front_4.jpg",
       "Vorne/Living_front_5.jpg"
     ]
   },
   Hinten: {
     type: "images",
+    label: "Foto — Hinten",
     items: [
       "Hinten/Living_back_1.jpg",
       "Hinten/Living_back_2.jpg",
@@ -106,44 +109,74 @@ const media = {
   },
   Bad: {
     type: "images",
+    label: "Foto — Bad",
     items: ["Bad/Bath_1.jpg", "Bad/Bath_2.jpg"]
   },
   "Grundriss Vorne": {
     type: "images",
+    label: "Grundriss — Vorne",
     items: ["Grundriss/Grundriss_vorne.jpg"]
   },
   "Grundriss Hinten": {
     type: "images",
+    label: "Grundriss — Hinten",
     items: ["Grundriss/Grundriss_hinten.jpg"]
   },
   "Grundriss Gesamt": {
     type: "images",
+    label: "Grundriss — Gesamt",
     items: ["Grundriss/Grundriss_gesamt.jpg"]
   },
   "Video vorne": {
     type: "video",
+    label: "Video — Vorne",
     src: "Video vorne/Video_vorne.mp4"
   },
   "Video hinten": {
     type: "video",
+    label: "Video — Hinten",
     src: "Video hinten/Video_hinten.mp4"
   }
 };
 
 // ---------- Wiederholt genutzte Lightbox-Elemente einmalig holen ----------
+// Vorher wurde z.B. document.getElementById("lightbox-img") an sechs Stellen
+// im Code einzeln aufgerufen. Jetzt gibt es dafür je eine Variable.
 const lightboxEl = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightbox-img");
 const lightboxVideo = document.getElementById("lightbox-video");
 const lightboxPrevBtn = document.querySelector(".lightbox-prev");
 const lightboxNextBtn = document.querySelector(".lightbox-next");
 
-// ---------- Vorschaubild (erstes Foto jeder Galerie) in den photo-frame setzen ----------
-function setupPhotoThumbnails() {
-  document.querySelectorAll(".photo-frame[data-gallery]").forEach((frame) => {
-    const entry = media[frame.dataset.gallery];
-    if (entry && entry.type === "images" && entry.items.length > 0) {
-      frame.style.backgroundImage = `url('${entry.items[0]}')`;
-    }
+// ---------- Foto-Kacheln aus dem media-Objekt erzeugen ----------
+// Vorher stand jede Kachel (Markup + Label-Text) fest im HTML, während die
+// zugehörigen Bilder/Videos separat in media{} lagen - derselbe Name musste
+// an zwei Stellen gepflegt werden. Jetzt steht im HTML nur noch ein leerer
+// Container mit einem data-photo-grid Attribut ("welche Namen, in welcher
+// Reihenfolge"), und diese Funktion baut daraus die komplette Kachel:
+// Markup, Label, Vorschaubild und Klick-Handler kommen alle aus media{}.
+function renderPhotoGrids() {
+  document.querySelectorAll("[data-photo-grid]").forEach((container) => {
+    const names = container.dataset.photoGrid.split(",").map((n) => n.trim());
+
+    container.innerHTML = names
+      .map((name) => {
+        const entry = media[name];
+        if (!entry) return "";
+        const videoClass = entry.type === "video" ? " video-frame" : "";
+        return `<div class="photo-frame${videoClass}" data-gallery="${name}">
+          <span class="mono-label fog-label">${entry.label}</span>
+        </div>`;
+      })
+      .join("");
+
+    container.querySelectorAll(".photo-frame[data-gallery]").forEach((frame) => {
+      const entry = media[frame.dataset.gallery];
+      if (entry.type === "images" && entry.items.length > 0) {
+        frame.style.backgroundImage = `url('${entry.items[0]}')`;
+      }
+      frame.addEventListener("click", () => openGallery(frame.dataset.gallery));
+    });
   });
 }
 
@@ -239,6 +272,6 @@ document.addEventListener("DOMContentLoaded", () => {
   setupScrollReveal();
   setupHeroReveal();
   setupCopyButton();
-  setupPhotoThumbnails();
+  renderPhotoGrids();
   setupLightboxDismiss();
 });
