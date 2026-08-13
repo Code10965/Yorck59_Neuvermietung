@@ -18,7 +18,7 @@ function setupCrossfadeGroups() {
 }
 
 // ---------- Sanftes Einblenden von Abschnitten beim Scrollen ----------
-// Sobald ein Abschnitt (data-reveal) zu ~12% sichtbar ist, bekommt er
+// Sobald ein Abschnitt (data-reveal) zu ~20% sichtbar ist, bekommt er
 // die Klasse "visible" - der Rest (Verzögerung pro Kind-Element) steht in styles.css.
 function setupScrollReveal() {
   const targets = document.querySelectorAll("[data-reveal]");
@@ -36,7 +36,7 @@ function setupScrollReveal() {
         }
       });
     },
-    { threshold: 0.12 }
+    { threshold: 0.20 }
   );
 
   targets.forEach((el) => observer.observe(el));
@@ -70,56 +70,79 @@ function setupCopyButton() {
   });
 }
 
-// ---------- Foto-Galerien (Name -> Liste der Bildpfade) ----------
-const galleries = {
-  Garten: [
-    "Garten/Garden_1.jpg",
-    "Garten/Garden_2.jpg",
-    "Garten/Garden_3.jpg",
-    "Garten/Garden_4.jpg"
-  ],
-  Vorne: [
-    "Vorne/Living_front_1.jpg",
-    "Vorne/Living_front_2.jpg",
-    "Vorne/Living_front_3.jpg",
-    "Vorne/Living_front_4.jpg",
-    "Vorne/Living_front_5.jpg"
-  ],
-  Hinten: [
-    "Hinten/Living_back_1.jpg",
-    "Hinten/Living_back_2.jpg",
-    "Hinten/Living_back_3.jpg",
-    "Hinten/Living_back_4.jpg",
-    "Hinten/Living_back_5.jpg"
-  ],
-  Bad: [
-    "Bad/Bath_1.jpg",
-    "Bad/Bath_2.jpg"
-  ],
-  "Grundriss Vorne": [
-    "Grundriss/Grundriss_vorne.jpg"
-  ],
-  "Grundriss Hinten": [
-    "Grundriss/Grundriss_hinten.jpg"
-  ],
-  "Grundriss Gesamt": [
-    "Grundriss/Grundriss_gesamt.jpg"
-  ]
+// ---------- Medien (Name -> Bilder-Galerie ODER einzelnes Video) ----------
+// Vorher gab es zwei getrennte Objekte (galleries + videos), die openGallery()
+// erst per if/else auseinanderhalten musste. Jetzt trägt jeder Eintrag seinen
+// Typ selbst - eine einzige "Source of Truth" pro Name.
+const media = {
+  Garten: {
+    type: "images",
+    items: [
+      "Garten/Garden_1.jpg",
+      "Garten/Garden_2.jpg",
+      "Garten/Garden_3.jpg",
+      "Garten/Garden_4.jpg"
+    ]
+  },
+  Vorne: {
+    type: "images",
+    items: [
+      "Vorne/Living_front_4.jpg",
+      "Vorne/Living_front_1.jpg",
+      "Vorne/Living_front_2.jpg",
+      "Vorne/Living_front_3.jpg",
+      "Vorne/Living_front_5.jpg"
+    ]
+  },
+  Hinten: {
+    type: "images",
+    items: [
+      "Hinten/Living_back_1.jpg",
+      "Hinten/Living_back_2.jpg",
+      "Hinten/Living_back_3.jpg",
+      "Hinten/Living_back_4.jpg",
+      "Hinten/Living_back_5.jpg"
+    ]
+  },
+  Bad: {
+    type: "images",
+    items: ["Bad/Bath_1.jpg", "Bad/Bath_2.jpg"]
+  },
+  "Grundriss Vorne": {
+    type: "images",
+    items: ["Grundriss/Grundriss_vorne.jpg"]
+  },
+  "Grundriss Hinten": {
+    type: "images",
+    items: ["Grundriss/Grundriss_hinten.jpg"]
+  },
+  "Grundriss Gesamt": {
+    type: "images",
+    items: ["Grundriss/Grundriss_gesamt.jpg"]
+  },
+  "Video vorne": {
+    type: "video",
+    src: "Video vorne/Video_vorne.mp4"
+  },
+  "Video hinten": {
+    type: "video",
+    src: "Video hinten/Video_hinten.mp4"
+  }
 };
 
-// ---------- Videos (Name -> einzelne Videodatei) ----------
-const videos = {
-  "Video vorne": "Video vorne/Video_vorne.mp4",
-  "Video hinten": "Video hinten/Video_hinten.mp4"
-};
+// ---------- Wiederholt genutzte Lightbox-Elemente einmalig holen ----------
+const lightboxEl = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+const lightboxVideo = document.getElementById("lightbox-video");
+const lightboxPrevBtn = document.querySelector(".lightbox-prev");
+const lightboxNextBtn = document.querySelector(".lightbox-next");
 
 // ---------- Vorschaubild (erstes Foto jeder Galerie) in den photo-frame setzen ----------
 function setupPhotoThumbnails() {
   document.querySelectorAll(".photo-frame[data-gallery]").forEach((frame) => {
-    const name = frame.dataset.gallery;
-    const images = galleries[name];
-    if (images && images.length > 0) {
-      frame.style.backgroundImage = `url('${images[0]}')`;
+    const entry = media[frame.dataset.gallery];
+    if (entry && entry.type === "images" && entry.items.length > 0) {
+      frame.style.backgroundImage = `url('${entry.items[0]}')`;
     }
   });
 }
@@ -129,75 +152,74 @@ let currentGallery = [];
 let currentIndex = 0;
 
 function openGallery(name) {
-  // Videos haben nur eine Datei, keine Vor/Zurück-Navigation
-  if (videos[name]) {
-    openVideo(name);
-    return;
-  }
+  const entry = media[name];
+  if (!entry) return;
 
-  currentGallery = galleries[name] || [];
+  if (entry.type === "video") {
+    openVideo(entry);
+  } else {
+    openImages(entry);
+  }
+}
+
+function openImages(entry) {
+  currentGallery = entry.items;
   currentIndex = 0;
   if (currentGallery.length === 0) return;
 
   showImageMode();
-  document.getElementById("lightbox-img").src = currentGallery[currentIndex];
-  document.getElementById("lightbox").classList.add("active");
+  lightboxImg.src = currentGallery[currentIndex];
+  lightboxEl.classList.add("active");
 }
 
-function openVideo(name) {
-  const src = videos[name];
-  if (!src) return;
-
+function openVideo(entry) {
   showVideoMode();
-  const videoEl = document.getElementById("lightbox-video");
-  videoEl.src = src;
-  document.getElementById("lightbox").classList.add("active");
-  videoEl.play().catch(() => {
+  lightboxVideo.src = entry.src;
+  lightboxEl.classList.add("active");
+  lightboxVideo.play().catch(() => {
     // Autoplay ggf. vom Browser blockiert - kein Absturz, Nutzer startet manuell.
   });
 }
 
 function closeGallery() {
-  document.getElementById("lightbox").classList.remove("active");
-  const videoEl = document.getElementById("lightbox-video");
-  videoEl.pause();
-  videoEl.src = "";
+  lightboxEl.classList.remove("active");
+  lightboxVideo.pause();
+  lightboxVideo.src = "";
 }
 
 function showImageMode() {
-  document.getElementById("lightbox-img").style.display = "block";
-  document.getElementById("lightbox-video").style.display = "none";
-  document.getElementById("lightbox-video").pause();
+  lightboxImg.style.display = "block";
+  lightboxVideo.style.display = "none";
+  lightboxVideo.pause();
 
   // Bei nur einem Bild (z.B. Grundriss) machen Vor/Zurück-Pfeile keinen Sinn
   const hasMultiple = currentGallery.length > 1;
-  document.querySelector(".lightbox-prev").style.display = hasMultiple ? "flex" : "none";
-  document.querySelector(".lightbox-next").style.display = hasMultiple ? "flex" : "none";
+  lightboxPrevBtn.style.display = hasMultiple ? "flex" : "none";
+  lightboxNextBtn.style.display = hasMultiple ? "flex" : "none";
 }
 
 function showVideoMode() {
-  document.getElementById("lightbox-img").style.display = "none";
-  document.getElementById("lightbox-video").style.display = "block";
-  document.querySelector(".lightbox-prev").style.display = "none";
-  document.querySelector(".lightbox-next").style.display = "none";
+  lightboxImg.style.display = "none";
+  lightboxVideo.style.display = "block";
+  lightboxPrevBtn.style.display = "none";
+  lightboxNextBtn.style.display = "none";
 }
 
 function showNext() {
   currentIndex = (currentIndex + 1) % currentGallery.length;
-  document.getElementById("lightbox-img").src = currentGallery[currentIndex];
+  lightboxImg.src = currentGallery[currentIndex];
 }
 
 function showPrev() {
   currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
-  document.getElementById("lightbox-img").src = currentGallery[currentIndex];
+  lightboxImg.src = currentGallery[currentIndex];
 }
 
 // Klick auf den dunklen Hintergrund (nicht auf das Bild selbst) schließt die Lightbox
 function setupLightboxDismiss() {
-  const lightbox = document.getElementById("lightbox");
-  if (!lightbox) return;
+  if (!lightboxEl) return;
 
-  lightbox.addEventListener("click", (e) => {
+  lightboxEl.addEventListener("click", (e) => {
     if (e.target.id === "lightbox") {
       closeGallery();
     }
