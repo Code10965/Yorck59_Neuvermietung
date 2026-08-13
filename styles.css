@@ -103,7 +103,13 @@ body {
   padding: 16px 0;
   border-bottom: 1px solid var(--line);
 }
-.fact-value { font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: var(--ink); }
+.fact-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.78rem, 3.4vw, 1rem);
+  color: var(--ink);
+  text-align: right;
+  white-space: nowrap;
+}
 
 /* ---------- Nachbarschafts-Grid (Section 2) ---------- */
 .neighborhood-grid {
@@ -178,6 +184,13 @@ body {
 .hero-bg { position: absolute; inset: 0; }
 .hero-bg .crossfade-img { transition: opacity 2800ms ease-in-out; }
 .hero-bg .crossfade-img.active { opacity: 0.55; }
+
+/* Unter 640px: Portrait-Crops statt der 21:9 Desktop-Bilder zeigen */
+.hero-bg-mobile { display: none; }
+@media (max-width: 640px) {
+  .hero-bg-desktop { display: none; }
+  .hero-bg-mobile { display: block; }
+}
 
 .gallery {
   position: relative;
@@ -289,13 +302,12 @@ body {
 @media (min-width: 640px) { .contact-row { flex-direction: row; align-items: center; } }
 .contact-email {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.875rem;
+  font-size: clamp(0.68rem, 3.6vw, 1rem);
+  white-space: nowrap;
   padding: 16px 20px;
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.12);
-  word-break: break-all;
 }
-@media (min-width: 640px) { .contact-email { font-size: 1rem; } }
 .copy-btn {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
@@ -332,24 +344,24 @@ body {
   z-index: 999;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  padding: 16px;
 }
 .lightbox.active { display: flex; }
 
 .lightbox-frame {
   position: relative;
   display: inline-flex;
-  max-width: 80vw;
+  max-width: 92vw;
   max-height: 85vh;
 }
 .lightbox-img {
-  max-width: 80vw;
+  max-width: 92vw;
   max-height: 85vh;
   object-fit: contain;
   display: block;
 }
 .lightbox-video {
-  max-width: 80vw;
+  max-width: 92vw;
   max-height: 85vh;
   display: none;
   background: #000;
@@ -371,15 +383,18 @@ body {
 .lightbox-prev,
 .lightbox-next,
 .lightbox-close {
-  background: none;
+  position: absolute;
+  background: rgba(28,28,26,0.4);
   border: none;
+  border-radius: 9999px;
   cursor: pointer;
   color: var(--gold-soft);
-  opacity: 0.75;
+  opacity: 0.85;
   transition: opacity 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 2;
 }
 .lightbox-prev:hover,
 .lightbox-next:hover,
@@ -387,16 +402,16 @@ body {
   opacity: 1;
 }
 
-.lightbox-prev, .lightbox-next {
-  flex-shrink: 0;
-  padding: 10px;
-}
-
 .lightbox-close {
-  position: absolute;
   top: 10px;
   right: 10px;
   padding: 7px;
-  background: rgba(28,28,26,0.4);
-  border-radius: 9999px;
 }
+
+.lightbox-prev, .lightbox-next {
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 9px;
+}
+.lightbox-prev { left: 8px; }
+.lightbox-next { right: 8px; }
