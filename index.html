@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glücklich wohnen</title>
+  <link rel="stylesheet" href="tailwind.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- HERO mit Crossfade-Hintergrund -->
+  <header class="hero">
+    <div class="hero-bg crossfade-group" data-interval="7500">
+      <img class="crossfade-img active" src="Hero/Garden_1.jpg" alt="" />
+      <img class="crossfade-img" src="Hero/Living_back_4.jpg" alt="" />
+      <img class="crossfade-img" src="Hero/Living_front_3.jpg" alt="" />
+      <img class="crossfade-img" src="Hero/Living_back_3.jpg" alt="" />
+      <img class="crossfade-img" src="Hero/Living_front_5.jpg" alt="" />
+      <div class="hero-gradient"></div>
+    </div>
+
+    <div class="hero-content" id="hero-content">
+      <div class="hero-tag">
+        <span class="hero-dot"></span>
+        <span class="mono-label light-label">Frei ab 01. Dezember</span>
+      </div>
+
+      <h1 class="hero-title">
+        Ein neues Zuhause,<br />
+        <span class="hero-title-italic">nicht bloß eine Wohnung.</span>
+      </h1>
+
+      <p class="hero-sub">
+        Traumhaft wohnen mit eigenem kleinen Garten im Innenhof, mittendrin im schönsten Teil von Kreuzberg. Und einer Haus- und Hofgemeinschaft, die diesen Namen auch verdient.
+      </p>
+    </div>
+
+    <div class="hero-scroll-hint">
+      <span class="mono-label light-label">Zum Lesen scrollen</span>
+      <span class="hero-scroll-line"></span>
+    </div>
+  </header>
+
+  <!-- 1. Allgemeine Beschreibung -->
+  <section class="reveal-section tone-paper" data-reveal>
+    <div class="section-inner">
+      <div class="fade-item eyebrow-row">
+        <span class="mono-label gold-label">01 — Das Wichtigste auf einen Blick</span>
+        <span class="eyebrow-line"></span>
+      </div>
+      <h2 class="fade-item section-title">Ein Platz zum Ankommen</h2>
+      <div class="fade-item">
+        <div class="lorem-block">
+          <p class="lorem-p">Die helle Wohnung verteilt sich auf zwei Einheiten: eine im Vorderhaus mit Fensterfront zur Straße und zum Innenhof, eine im Seitenflügel mit Blick in den grünen Hof.</p>
+          <p class="lorem-p">Beide Einheiten überzeugen mit großen, offenen Räumen, die ineinander übergehen und viel Licht hereinlassen. Eine Tür verbindet die beiden Bereiche miteinander.</p>
+          <p class="lorem-p">Vorne warten Gäste-Bad, Küchenzeile und Gartenzugang, im Seitenflügel Bad, Schlafnische, begehbarer Kleiderschrank und ebenfalls direkter Zugang zum Garten.</p>
+        </div>
+        <div class="fact-list">
+          <div class="fact-row"><span class="mono-label fog-label">Zimmer</span><span class="fact-value">2</span></div>
+          <div class="fact-row"><span class="mono-label fog-label">Fläche</span><span class="fact-value">70 m² (vorne) / 60 m² (hinten)</span></div>
+          <div class="fact-row"><span class="mono-label fog-label">Haus</span><span class="fact-value">Altbau, Erdgeschoss</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Lage / Nachbarschaft / Hausgemeinschaft -->
+  <section class="reveal-section tone-cloud" data-reveal>
+    <div class="section-inner">
+      <div class="fade-item eyebrow-row">
+        <span class="mono-label gold-label">02 — Das Leben drumherum</span>
+        <span class="eyebrow-line"></span>
+      </div>
+      <h2 class="fade-item section-title">Eine Umgebung zum Wohlfühlen</h2>
+      <div class="fade-item">
+        <div class="lorem-block">
+          <p class="lorem-p"><strong>Erholung: </strong>Zum Durchatmen sind es nur drei Minuten in den Viktoria- oder Gleisdreieckpark, ringsherum laden Restaurants zum Verweilen ein. Der Bergmannkiez liegt sieben Minuten entfernt, das Yorck-Kino ist direkt um die Ecke.</p>
+          <p class="lorem-p"><strong>Versorgung: </strong>Alles Wichtige ist fußläufig erreichbar: LPG, Rewe, Lidl und Aldi in direkter Nähe, die Bushaltestelle direkt vor der Tür und die S- und U-Bahn fünf Minuten entfernt.</p>
+          <p class="lorem-p"><strong>Haus- und Hofgemeinschaft: </strong>Gemeinsame Hoffeste gehören einfach dazu – das Miteinander im Haus ist freundlich, entspannt und alles andere als anonym.</p>
+        </div>
+        <div class="neighborhood-grid">
+          <div class="neighborhood-item">Einaufen<br>ums Eck</div>
+          <div class="neighborhood-item">S- & U-Bahn<br>fußläufig</div>
+          <div class="neighborhood-item">Parks & Restaurants<br>in der Nähe</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Fotos und Videos -->
+  <section class="reveal-section tone-paper" data-reveal>
+    <div class="section-inner">
+      <div class="fade-item eyebrow-row">
+        <span class="mono-label gold-label">03 — So sieht's aus</span>
+        <span class="eyebrow-line"></span>
+      </div>
+      <h2 class="fade-item section-title">Schau dich in Ruhe um</h2>
+      <div class="fade-item">
+        <p class="lorem-p mb-gallery-intro">
+          Stell Dir vor, du wandelst mit einem Becher Kaffee in der Hand durch die Räume. Hast Du schon Deinen Lieblingsplatz entdeckt?
+        </p>
+        <div class="photo-grid">
+          <div class="photo-frame" data-gallery="Garten" onclick="openGallery('Garten')">
+            <span class="mono-label fog-label">Foto — Garten</span>
+          </div>
+          <div class="photo-frame" data-gallery="Vorne" onclick="openGallery('Vorne')">
+            <span class="mono-label fog-label">Foto — Vorne</span>
+          </div>
+          <div class="photo-frame" data-gallery="Hinten" onclick="openGallery('Hinten')">
+            <span class="mono-label fog-label">Foto — Hinten</span>
+          </div>
+          <div class="photo-frame" data-gallery="Bad" onclick="openGallery('Bad')">
+            <span class="mono-label fog-label">Foto — Bad</span>
+          </div>
+          <div class="photo-frame video-frame" data-gallery="Video vorne" onclick="openGallery('Video vorne')">
+            <span class="mono-label fog-label">Video — Vorne</span>
+          </div>
+          <div class="photo-frame video-frame" data-gallery="Video hinten" onclick="openGallery('Video hinten')">
+            <span class="mono-label fog-label">Video — Hinten</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Grundrisse -->
+  <section class="reveal-section tone-cloud" data-reveal>
+    <div class="section-inner">
+      <div class="fade-item eyebrow-row">
+        <span class="mono-label gold-label">04 — Den Überblick behalten</span>
+        <span class="eyebrow-line"></span>
+      </div>
+      <h2 class="fade-item section-title">Linien, die Zuhause werden</h2>
+      <div class="fade-item">
+        <p class="lorem-p mb-gallery-intro">Zwei Wohnungen wurden zu einem großzügigen Zuhause vereint – für einen Grundriss, der wirklich besonders ist.</p>
+        <div class="photo-grid">
+          <div class="photo-frame" data-gallery="Grundriss Vorne" onclick="openGallery('Grundriss Vorne')">
+            <span class="mono-label fog-label">Grundriss — Vorne</span>
+          </div>
+          <div class="photo-frame" data-gallery="Grundriss Hinten" onclick="openGallery('Grundriss Hinten')">
+            <span class="mono-label fog-label">Grundriss — Hinten</span>
+          </div>
+          <div class="photo-frame" data-gallery="Grundriss Gesamt" onclick="openGallery('Grundriss Gesamt')">
+            <span class="mono-label fog-label">Grundriss — Gesamt</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Besonderheiten -->
+  <section class="reveal-section tone-paper" data-reveal>
+    <div class="section-inner">
+      <div class="fade-item eyebrow-row">
+        <span class="mono-label gold-label">05 — Mit Liebe zum Detail</span>
+        <span class="eyebrow-line"></span>
+      </div>
+      <h2 class="fade-item section-title">Passt das zu dir?</h2>
+      <div class="fade-item">
+        <div class="lorem-block">
+          <p class="lorem-p">Jede Wohnung hat ihren eigenen Charakter – diese hier passt besonders gut zu Menschen, die praktische Ausstattung und ein echtes Zuhause zu schätzen wissen.</p>
+          <p class="lorem-p">Das macht sie aus:</p>
+        </div>
+        <ul class="feature-list">
+          <li><span class="dot"></span>Für Menschen, die im Winter gerne eine Fussbodenheizung genießen</li>
+          <li><span class="dot"></span>Für Menschen, die warmes Wasser bedarfsgerecht aufbereiten wollen (Durchlauferhitzer)</li>
+          <li><span class="dot"></span>Für Paare oder Singles, die die Großzügigkeit offener Räume schätzen</li>
+          <li><span class="dot"></span>Für Abwechslungssuchende, die sich nicht zwischen zwei Bädern mit Dusche entscheiden wollen</li>
+          <li><span class="dot"></span>Für Menschen, die Lust auf Nachbarschaft haben</li>
+          <li><span class="dot"></span>Für Menschen, die Stauraum in einem eigenen, abschließbaren Kellerbereich brauchen</li>
+          <li><span class="dot"></span>Für Menschen, die gerne eigenständig und unkompliziert wohnen</li>
+          <li><span class="dot"></span>Für Menschen, die ihr Bike sicher im hauseigenen Fahrradraum abstellen wollen</li>
+          <li><span class="dot"></span>Für Menschen mit grünem Daumen, die von einem 25 m² großen eigenen Garten mit Terrasse träumen</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Kontakt -->
+  <section class="contact">
+    <div class="section-inner">
+      <div class="eyebrow-row">
+        <span class="mono-label light-gold-label">06 — Wir freuen uns auf Dich</span>
+        <span class="eyebrow-line light-line"></span>
+      </div>
+      <h2 class="section-title contact-title">Es hat gefunkt, oder?</h2>
+      <p class="contact-text">
+        Dann schreib uns kurz, wer du bist und warum du gut hierher passt.
+      </p>
+      <div class="contact-row">
+        <code class="contact-email" id="contact-email">dein_neues_zuhause_berlin [at] web.de</code>
+        <button class="copy-btn" id="copy-btn" type="button">Adresse kopieren</button>
+      </div>
+      <p class="contact-hint">[at] ersetzen durch @ — Spam-Bots lesen leider auch mit.</p>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p class="mono-label footer-label">
+      Verfügbar ab 01.12. · Besichtigung nach Absprache · Kein Massenbewerbungs-Casting
+    </p>
+  </footer>
+
+  <!-- Lightbox-Overlay: bewusst hier außerhalb aller Sections, direkt vor </body>.
+       Wichtig: Ein Vorfahre mit "transform" (z.B. die .fade-item Einblend-Animation)
+       würde "position: fixed" sonst relativ zu sich selbst statt zum Viewport setzen. -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-prev" onclick="showPrev()" aria-label="Vorheriges Foto">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 6 9 12 15 18"></polyline></svg>
+    </button>
+    <div class="lightbox-frame">
+      <button class="lightbox-close" onclick="closeGallery()" aria-label="Schließen">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"></line><line x1="19" y1="5" x2="5" y2="19"></line></svg>
+      </button>
+      <img class="lightbox-img" id="lightbox-img" src="" alt="" />
+      <video class="lightbox-video" id="lightbox-video" controls playsinline></video>
+    </div>
+    <button class="lightbox-next" onclick="showNext()" aria-label="Nächstes Foto">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg>
+    </button>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
