@@ -311,6 +311,13 @@ body {
   color: #D5D4CF;
   margin: 0;
   text-shadow: 0 1px 12px rgba(0,0,0,0.45);
+  /* Blocksatz: jede Zeile außer der letzten reicht bis zum rechten Rand.
+     hyphens: auto sorgt für Silbentrennung, damit dabei nicht zu große
+     Lücken zwischen den Wörtern entstehen (v.a. bei schmaler Spalte auf
+     Mobile). lang="de" steht bereits im <html>-Tag, das braucht der
+     Browser, um deutsche Trennregeln anzuwenden. */
+  text-align: justify;
+  hyphens: auto;
 }
 @media (min-width: 640px) { .hero-sub { font-size: 1.25rem; } }
 
