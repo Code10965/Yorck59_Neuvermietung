@@ -191,6 +191,16 @@ body {
 @media (max-width: 640px) {
   .hero-bg-desktop { display: none; }
   .hero-bg-mobile { display: block; }
+
+  /* Der Verlauf/die Deckkraft oben ist auf % der Container-Höhe berechnet.
+     Im Hochformat ist der Hero-Bereich viel höher als im Querformat, darum
+     deckt derselbe Verlauf hier proportional deutlich mehr vom Bild ab.
+     Für Mobile daher heller: mehr Bild-Deckkraft, dunkler Bereich setzt
+     später ein und ist selbst weniger dunkel. */
+  .hero-bg-mobile .crossfade-img.active { opacity: 0.8; }
+  .hero-bg-mobile ~ .hero-gradient {
+    background: linear-gradient(180deg, rgba(28,28,26,0.3) 0vh, rgba(28,28,26,0.15) 45vh, var(--ink) 96vh);
+  }
 }
 
 .gallery {
@@ -231,7 +241,12 @@ body {
 .hero-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(28,28,26,0.55) 0%, rgba(28,28,26,0.35) 35%, var(--ink) 92%);
+  /* vh statt % verankert den Verlauf an der sichtbaren Bildschirmhöhe,
+     nicht an der Höhe von .hero selbst - die kann durch min-height: 100vh
+     zwar meist gleich sein, aber bei viel Textumbruch auch mal darüber
+     hinauswachsen. Mit vh bleibt der Übergang an derselben Bildschirm-
+     position, egal wie hoch die Box durch den Inhalt wird. */
+  background: linear-gradient(180deg, rgba(28,28,26,0.55) 0vh, rgba(28,28,26,0.35) 35vh, var(--ink) 92vh);
 }
 .hero-content {
   position: relative;
@@ -385,13 +400,19 @@ body {
 .lightbox-next,
 .lightbox-close {
   position: absolute;
-  background: rgba(28,28,26,0.4);
-  border: none;
+  background: rgba(28,28,26,0.55);
+  /* Milchglas-Effekt: verwischt, was hinter dem Button liegt, statt es nur
+     halbtransparent durchscheinen zu lassen. Dadurch bleibt der Button auf
+     hellen UND dunklen Fotos gleichermaßen gut erkennbar. */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.22);
   border-radius: 9999px;
   cursor: pointer;
-  color: var(--gold-soft);
-  opacity: 0.85;
-  transition: opacity 0.2s ease;
+  color: var(--paper);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.25);
+  opacity: 0.9;
+  transition: opacity 0.2s ease, background 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -401,6 +422,7 @@ body {
 .lightbox-next:hover,
 .lightbox-close:hover {
   opacity: 1;
+  background: rgba(28,28,26,0.75);
 }
 
 .lightbox-close {
