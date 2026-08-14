@@ -199,7 +199,12 @@ body {
      später ein und ist selbst weniger dunkel. */
   .hero-bg-mobile .crossfade-img.active { opacity: 0.8; }
   .hero-bg-mobile ~ .hero-gradient {
-    background: linear-gradient(180deg, rgba(28,28,26,0.3) 0vh, rgba(28,28,26,0.15) 45vh, var(--ink) 96vh);
+    /* WICHTIG: durchgängig dunkler werdend von oben nach unten, keine
+       "Delle" in der Mitte. Der vorige Verlauf wurde ab 45vh erst heller
+       und danach erst wieder dunkler - genau dort, wo wegen
+       justify-content: flex-end der Titel sitzt. Dadurch war die Stelle
+       hinter dem Text die hellste im ganzen Bild statt die kontrastreichste. */
+    background: linear-gradient(180deg, rgba(28,28,26,0.35) 0vh, rgba(28,28,26,0.5) 20vh, rgba(28,28,26,0.68) 50vh, var(--ink) 90vh);
   }
 }
 
@@ -280,17 +285,23 @@ body {
 @media (min-width: 768px) { .hero-title { font-size: 6rem; } }
 .hero-title-italic {
   font-style: italic;
-  color: var(--paper);
-  /* Weiße Füllung statt Gold: verhindert das "Verschmieren", das entsteht,
-     wenn ein weicher dunkler Schatten mit einer ohnehin dunkleren Gold-
-     Füllung verschwimmt. Die Kontur bleibt knackig (kleine Radien statt
-     großer Weichzeichnung), das Gold lebt jetzt als warmer Glow außen
-     herum weiter statt als Textfarbe selbst. */
-  text-shadow:
-    0 0 1px rgba(28,28,26,0.9),
-    0 0 3px rgba(28,28,26,0.7),
-    0 0 9px var(--gold-soft),
-    0 2px 14px rgba(0,0,0,0.35);
+  /* Etwas kräftigeres Schriftgewicht als der Rest der Überschrift (500
+     statt 300): dickt die extrem dünnen Haarlinien der Fraunces-Kursive
+     auf, wodurch sie sich robuster gegen unruhige/helle Fotohintergründe
+     behaupten - trifft denselben Schwachpunkt, der vorher schon die
+     text-stroke-Rendering-Lücken verursacht hat. */
+  font-weight: 350;
+  /* Der hellere --gold-soft-Ton hat zu wenig Eigenkontrast auf hellen
+     Fotostellen. Statt das mit einer Kontur zu kompensieren (die bei
+     dieser Schrift zu Rendering-Lücken an den Haarlinien führt, siehe
+     unten), nutzen wir hier direkt den dunkleren, kräftigeren --gold-Ton -
+     der ist von Haus aus lesbar, ganz ohne Kontur-Tricks. */
+  color: var(--gold);
+  /* Kein text-stroke mehr: Fraunces Italic hat sehr dünne Haarlinien
+     zwischen den dicken Rundungen. Eine gleichmäßig breite Kontur passt
+     nicht zu diesem Strich-Kontrast und lässt manche Haarlinien in der
+     Berechnung verschwinden. Nur noch ein sehr sanfter Tiefenschatten. */
+  text-shadow: 0 2px 10px rgba(0,0,0,0.25);
 }
 
 .hero-sub {
