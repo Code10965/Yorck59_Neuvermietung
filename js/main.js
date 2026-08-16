@@ -8,6 +8,7 @@ import { setupScrollReveal } from "./scrollReveal.js";
 import { setupHeroReveal } from "./heroReveal.js";
 import { renderEmailContacts } from "./emailContact.js";
 import { setupGallery } from "./gallery.js";
+import { setupNav } from "./nav.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   setupCrossfadeGroups();
@@ -15,4 +16,5 @@ document.addEventListener("DOMContentLoaded", () => {
   setupHeroReveal();
   renderEmailContacts();
   setupGallery();
+  setupNav();
 });

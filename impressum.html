@@ -5,8 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Impressum — Zuhause. Ankommen.</title>
 
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-    <link rel="shortcut icon" href="favicon/favicon.ico">
+    <!-- Favicon: dunkles Icon im hellen Tab (weißer Hintergrund), helles
+         Icon im dunklen Tab - der Browser wählt selbst anhand des Systems/
+         Browser-Farbschemas. Ganz unten ohne "media" als Fallback für
+         Browser, die prefers-color-scheme auf <link> nicht unterstützen. -->
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16-dark.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32-dark.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon/favicon-192x192-dark.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicon/favicon-512x512-dark.png" media="(prefers-color-scheme: light)">
+    <link rel="apple-touch-icon" href="favicon/apple-touch-icon-dark.png" media="(prefers-color-scheme: light)">
+    <link rel="shortcut icon" href="favicon/favicon-dark.ico" media="(prefers-color-scheme: light)">
+
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon/favicon-192x192.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicon/favicon-512x512.png" media="(prefers-color-scheme: dark)">
+    <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" href="favicon/favicon.ico" media="(prefers-color-scheme: dark)">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32-dark.png">
+    <link rel="shortcut icon" href="favicon/favicon-dark.ico">
     <meta name="theme-color" content="#ffffff">
 
     <link rel="stylesheet" href="tailwind.css" />

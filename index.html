@@ -5,8 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zuhause. Ankommen.</title>
   
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-    <link rel="shortcut icon" href="favicon/favicon.ico">
+    <!-- Favicon: dunkles Icon im hellen Tab (weißer Hintergrund), helles
+         Icon im dunklen Tab - der Browser wählt selbst anhand des Systems/
+         Browser-Farbschemas. Ganz unten ohne "media" als Fallback für
+         Browser, die prefers-color-scheme auf <link> nicht unterstützen. -->
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16-dark.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32-dark.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon/favicon-192x192-dark.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicon/favicon-512x512-dark.png" media="(prefers-color-scheme: light)">
+    <link rel="apple-touch-icon" href="favicon/apple-touch-icon-dark.png" media="(prefers-color-scheme: light)">
+    <link rel="shortcut icon" href="favicon/favicon-dark.ico" media="(prefers-color-scheme: light)">
+
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon/favicon-192x192.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicon/favicon-512x512.png" media="(prefers-color-scheme: dark)">
+    <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" href="favicon/favicon.ico" media="(prefers-color-scheme: dark)">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32-dark.png">
+    <link rel="shortcut icon" href="favicon/favicon-dark.ico">
     <meta name="theme-color" content="#ffffff">
   
     <link rel="stylesheet" href="tailwind.css" />
@@ -58,7 +76,7 @@
   </header>
 
   <!-- 1. Allgemeine Beschreibung -->
-  <section class="reveal-section tone-paper" data-reveal>
+  <section id="section-overview" class="reveal-section tone-paper" data-reveal>
     <div class="section-inner">
       <div class="fade-item eyebrow-row">
         <span class="mono-label gold-label">01 — Auf einen Blick</span>
@@ -85,7 +103,7 @@
   </section>
 
   <!-- 2. Lage / Nachbarschaft / Hausgemeinschaft -->
-  <section class="reveal-section tone-cloud" data-reveal>
+  <section id="section-neighborhood" class="reveal-section tone-cloud" data-reveal>
     <div class="section-inner">
       <div class="fade-item eyebrow-row">
         <span class="mono-label gold-label">02 — Das Leben drumherum</span>
@@ -108,7 +126,7 @@
   </section>
 
   <!-- 3. Fotos und Videos -->
-  <section class="reveal-section tone-paper" data-reveal>
+  <section id="section-photos" class="reveal-section tone-paper" data-reveal>
     <div class="section-inner">
       <div class="fade-item eyebrow-row">
         <span class="mono-label gold-label">03 — So sieht's aus</span>
@@ -125,7 +143,7 @@
   </section>
 
   <!-- 4. Grundrisse -->
-  <section class="reveal-section tone-cloud" data-reveal>
+  <section id="section-floorplan" class="reveal-section tone-cloud" data-reveal>
     <div class="section-inner">
       <div class="fade-item eyebrow-row">
         <span class="mono-label gold-label">04 — Den Überblick behalten</span>
@@ -140,7 +158,7 @@
   </section>
 
   <!-- 5. Besonderheiten -->
-  <section class="reveal-section tone-paper" data-reveal>
+  <section id="section-features" class="reveal-section tone-paper" data-reveal>
     <div class="section-inner">
       <div class="fade-item eyebrow-row">
         <span class="mono-label gold-label">05 — Ein Auge fürs Detail</span>
@@ -169,7 +187,7 @@
   </section>
 
   <!-- 6. Kontakt -->
-  <section class="contact">
+  <section id="section-contact" class="contact">
     <div class="section-inner">
       <div class="eyebrow-row">
         <span class="mono-label light-gold-label">06 — Wir freuen uns auf Dich</span>
@@ -186,12 +204,31 @@
 
   <footer class="site-footer">
     <p class="mono-label footer-label">
-      Verfügbar ab 01.12. · Besichtigung nach Absprache · Kein Massenbewerbungs-Casting
+      Verfügbar ab 01.12.<br>Besichtigung nach Absprache<br>Kein Massenbewerbungs-Casting
     </p>
     <p class="mono-label footer-label" style="margin-top: 12px;">
       <a href="impressum.html" style="color: inherit; text-decoration: none;">Impressum</a> · <a href="datenschutz.html" style="color: inherit; text-decoration: none;">Datenschutz</a>
     </p>
   </footer>
+
+  <!-- Menü: aus demselben Grund wie die Lightbox unten bewusst außerhalb
+       aller Sections platziert (transform-Vorfahren würden "position: fixed"
+       sonst relativ zu sich selbst statt zum Viewport setzen). -->
+  <nav class="site-nav" id="site-nav">
+    <button class="nav-ball" id="nav-toggle" aria-label="Menü öffnen" aria-expanded="false">
+      <span class="nav-ball-visual">
+        <svg class="nav-ball-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <line class="nav-toggle-line nav-toggle-line-1" x1="4" y1="7" x2="20" y2="7"></line>
+          <line class="nav-toggle-line nav-toggle-line-2" x1="4" y1="12" x2="20" y2="12"></line>
+          <line class="nav-toggle-line nav-toggle-line-3" x1="4" y1="17" x2="20" y2="17"></line>
+        </svg>
+      </span>
+    </button>
+    <div class="nav-logo-peek" id="nav-logo-peek">
+      <img src="logo/Logo_NeuesZuhause.png" alt="Zuhause. Ankommen." />
+    </div>
+    <div class="nav-dropdown" id="nav-dropdown" data-nav-links></div>
+  </nav>
 
   <!-- Lightbox-Overlay: bewusst hier außerhalb aller Sections, direkt vor </body>.
        Wichtig: Ein Vorfahre mit "transform" (z.B. die .fade-item Einblend-Animation)
