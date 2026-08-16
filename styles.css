@@ -134,6 +134,15 @@ body {
   .section-inner { padding: 160px 40px; }
 }
 
+/* Kontakt-Sektion: unterer Innenabstand bewusst reduziert (statt der
+   üblichen 112px/160px) - direkt danach kommt schon der Footer, ein so
+   großer Leerraum dazwischen war unnötig und drückte die Section über den
+   sichtbaren Bereich hinaus. */
+.contact .section-inner { padding-bottom: 40px; }
+@media (min-width: 640px) {
+  .contact .section-inner { padding-bottom: 56px; }
+}
+
 .fade-item {
   opacity: 0;
   transform: translateY(14px);
@@ -688,6 +697,16 @@ body {
 
 /* ---------- Footer ---------- */
 .site-footer { padding: 40px 0; background: var(--ink); }
+
+/* Auf Mobile stehen die drei Kugeln (Menü/Sprache/Kontakt) bzw. deren
+   Zwischenzustände öfter genau über dem unteren Seitenrand - ohne
+   zusätzlichen Platz überlagern sie sonst "Impressum · Datenschutz". Der
+   Wert (110px) ist bewusst großzügig: deckt sowohl die volle Kugel-Reihe
+   (44px) als auch etwas Randabstand ab. */
+@media (max-width: 639px) {
+  .site-footer { padding-bottom: 130px; }
+}
+
 .footer-label {
   font-size: 9px;
   letter-spacing: 0.3em;
