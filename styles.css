@@ -487,16 +487,22 @@ body {
 }
 .email-box canvas { display: block; }
 
-/* ---------- Menü: goldene Kugel mit Hamburger-Icon + Wimpel-Dropdown ---------- */
+/* ---------- Menü, Sprache, Kontakt: drei goldene Kugeln ---------- */
 .site-nav { position: relative; z-index: 500; }
 
-/* Die Kugel ist gleichzeitig Klickfläche UND sichtbares Element (anders als
-   vorher bei der dünnen Linie, wo beides getrennt war) - bei 44px Durchmesser
-   ist sie als Ziel für Maus/Finger von Haus aus groß genug. */
+/* Jede Kugel steckt in einem eigenen .nav-item (Wrapper um Button + Panel) -
+   das ist die Einheit, auf der nav.js Hover/Klick UND das "open" bzw.
+   :focus-within auswertet. Position (top/right) wird komplett per JS als
+   Inline-Style gesetzt, nicht mehr per CSS-Variable - bei drei Kugeln, die
+   je nach Scroll-Zustand mal nebeneinander (Reihe) und mal übereinander
+   (Stapel) stehen, plus individueller Drift pro Kugel, wäre eine reine
+   CSS-Lösung kaum wartbar gewesen. */
+.nav-item { position: relative; }
+
+/* Die Kugel ist gleichzeitig Klickfläche UND sichtbares Element (bei 44px
+   Durchmesser als Ziel für Maus/Finger von Haus aus groß genug). */
 .nav-ball {
   position: fixed;
-  top: var(--nav-track-top, 20px);
-  right: var(--nav-edge);
   width: 44px;
   height: 44px;
   background: transparent;
@@ -507,7 +513,15 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 501;
-  transition: top 0.2s ease-out;
+
+  /* Basis-Übergang für den (seltenen) Fall, dass sich top/right aus anderem
+     Grund ändern. Der auffällige "Auffächern/Einklappen"-Effekt beim Wechsel
+     Reihe <-> Stapel läuft NICHT über diese Regel, sondern wird gezielt
+     einmalig pro Kugel in nav.js gesetzt (transition-delay + -duration
+     inline, siehe playStagger dort) - nur so bleibt die Bewegung bei
+     kontinuierlichem Scrollen zuverlässig sichtbar statt sich ständig selbst
+     zu unterbrechen. */
+  transition: right 0.2s ease-out, top 0.2s ease-out;
 }
 
 /* Eigener, dezenter Fokusring statt des blauen Browser-Standards - nur bei
@@ -521,14 +535,11 @@ body {
 /* Die eigentliche Optik (Farbe, Kreisform, Schatten) UND das Schrumpfen
    beim Scrollen sitzen bewusst auf diesem inneren Element, nicht auf dem
    Button selbst: transform: scale() verkleinert nicht nur die Optik, sondern
-   auch die Hover-/Klickfläche des Elements, auf dem es steht (Browser werten
-   Zeigerereignisse nach der gerenderten, also bereits transformierten Größe
-   aus). Würde die Kugel selbst schrumpfen, würde damit auch ihre Klickfläche
-   schrumpfen - beim Bewegen der Maus von der (winzigen) Kugel zum Panel
-   entstünde eine "tote Zone" dazwischen, in der die Maus den gemeinsamen
-   Hover-Bereich verlässt und das Panel vorzeitig schließt. Der äußere Button
-   bleibt dagegen immer bei voller 44px-Größe klickbar/hoverbar, nur diese
-   innere Ebene hier wird optisch kleiner. */
+   auch die Hover-/Klickfläche des Elements, auf dem es steht. Würde die
+   Kugel selbst schrumpfen, würde damit auch ihre Klickfläche schrumpfen -
+   beim Bewegen der Maus von der (winzigen) Kugel zum Panel entstünde eine
+   "tote Zone" dazwischen. Der äußere Button bleibt dagegen immer bei voller
+   44px-Größe klickbar/hoverbar, nur diese innere Ebene wird optisch kleiner. */
 .nav-ball-visual {
   width: 44px;
   height: 44px;
@@ -545,38 +556,25 @@ body {
 }
 .nav-ball:hover .nav-ball-visual { background: var(--gold-soft); }
 
-/* Im Stillstand ganz oben (Hero) ist die Kugel in voller Größe zu sehen,
-   inklusive der drei weißen Balken. Sobald gescrollt wird - derselbe Moment,
-   in dem auch das Logo verschwindet (Klasse "nav-at-top" fällt weg, siehe
-   nav.js) - schrumpft sie auf einen kleinen Punkt zusammen. Bewusst OHNE
-   Media Query: einheitliches Verhalten auf Mobile UND Desktop. Die Balken
-   schrumpfen dabei einfach mit (statt separat auszublenden) - so bleibt für
-   die Nutzerin erkennbar, dass es weiterhin dasselbe (nur kleine)
-   Hamburger-Menü ist, nicht ein neues, fremdes Element. */
+/* "@"-Symbol des Kontakt-Buttons - dieselbe Mono-Schrift wie der Rest der
+   Bedienelemente auf der Seite, keine eigene Icon-Datei nötig. */
+.nav-ball-glyph {
+  font-family: var(--font-mono);
+  font-size: 17px;
+  line-height: 1;
+}
+
+/* Im Stillstand ganz oben (Hero) ODER ganz unten (Kontakt-Sektion) sind alle
+   drei Kugeln in voller Größe zu sehen. Sobald gescrollt wird - derselbe
+   Moment, in dem auch das Logo verschwindet (Klassen "nav-at-top"/
+   "nav-at-bottom" fallen weg, siehe nav.js) - schrumpfen sie auf kleine
+   Punkte zusammen. Bewusst OHNE Media Query: einheitliches Verhalten auf
+   Mobile UND Desktop, und identisch für alle drei Buttons. */
 .site-nav:not(.nav-at-top):not(.nav-at-bottom) .nav-ball-visual {
   transform: scale(0.32);
 }
 
-/* Zwei unterschiedliche Ziele für "right", je nach Zustand - nur auf Mobile
-   relevant (auf Desktop bleibt es überall beim einfachen 20px-Rand):
-   - GROSSE Kugel (Hero "nav-at-top" ODER ganz unten "nav-at-bottom"): die
-     sichtbare Kante der Kugel soll denselben Randabstand wie das Logo haben
-     -> right bleibt der einfache Wert von --nav-edge (24px), keine Korrektur
-     nötig.
-   - KLEINE Kugel (mittendrin gescrollt): hier zählt nicht die Kante der
-     (unveränderten) 44px-Klickfläche, sondern die MITTE des winzigen
-     sichtbaren Punkts darin - die soll exakt auf der Foto-Kachel-Kante
-     liegen. Weil scale() um die Mitte herum verkleinert, bleibt die
-     Boxmitte so oder so gleich, aber "right" positioniert die Kante der
-     44px-Box, nicht ihre Mitte - deshalb hier weiterhin die Radius-Korrektur
-     (jetzt am äußeren Button, der die Position bestimmt). */
-@media (max-width: 639px) {
-  .site-nav:not(.nav-at-top):not(.nav-at-bottom) .nav-ball {
-    right: calc(var(--nav-edge) - 22px);
-  }
-}
-
-/* Die drei Linien morphen sanft zum "X", wenn das Panel offen ist */
+/* Die drei Linien morphen sanft zum "X", wenn das Menü-Panel offen ist */
 .nav-toggle-line {
   transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease;
   /* transform-origin: center bezieht sich sonst auf die Bounding-Box der
@@ -599,18 +597,14 @@ body {
 
 /* Logo: sichtbar ganz oben (Hero, "nav-at-top") UND ganz unten
    ("nav-at-bottom", Kontakt-Sektion) - beide Klassen von nav.js beim
-   Scrollen gesetzt, unabhängig vom Hover-Dropdown. Sitzt auf der LINKEN
-   Seite (gleicher Rand wie die Kugel rechts), Größe/Fade-Verhalten
-   unverändert. Niedrigerer z-index als das Panel, damit es beim Aufklappen
+   Scrollen gesetzt, unabhängig von den Dropdowns. Sitzt auf der LINKEN
+   Seite (gleicher Rand wie die Menü-Kugel rechts), Größe/Fade-Verhalten
+   unverändert. Niedrigerer z-index als die Panels, damit es beim Aufklappen
    sauber dahinter verschwindet statt sich zu überlagern. */
 .nav-logo-peek {
   position: fixed;
-  /* Derselbe obere Abstand wie die Kugel (kein zusätzlicher Versatz mehr) -
-     beide sitzen dadurch auf gleicher Höhe, wie ein Paar. */
   top: var(--nav-track-top, 20px);
   left: var(--nav-edge);
-  /* Dieselbe Größe wie die Kugel (44px), damit beide "optisch dieselbe
-     Höhe" haben statt unterschiedlich groß nebeneinander zu wirken. */
   width: 44px;
   height: 44px;
   z-index: 499;
@@ -633,45 +627,35 @@ body {
   transform: translateY(0);
 }
 
-/* Panel öffnet/schließt sich zur Ecke bei der Kugel hin - Ursprung oben
-   rechts (transform-origin). Bewusst "scale" (beide Achsen gleichzeitig)
-   statt nur "scaleY": Reines scaleY(0) staucht nur die Höhe zusammen und
-   lässt die volle Breite stehen - kombiniert mit der Rotation wirkte das
-   wie eine schräg hochgezogene Linie statt eines runden Zusammenziehens.
-   scale(0) auf beiden Achsen gleichzeitig lässt das Panel dagegen wirklich
-   zu einem Punkt an der Kugel hin verschwinden.
+/* Panel öffnet/schließt sich zur Ecke bei der eigenen Kugel hin - Ursprung
+   oben rechts oder unten rechts (transform-origin, von nav.js pro Panel
+   inline gesetzt, je nachdem ob genug Platz nach unten ist). "scale" (beide
+   Achsen gleichzeitig) statt nur "scaleY", damit es wirklich zu einem Punkt
+   an der Kugel hin verschwindet statt zu einer schräg gezogenen Linie.
    Ausgelöst über :focus-within (Tastatur) UND die "open"-Klasse (Hover/Klick
-   - siehe nav.js).
-
-   Die Kante (--nav-dropdown-edge) wird von nav.js berechnet: reicht der
-   Platz unterhalb der Kugel im sichtbaren Bereich nicht für das ganze Panel,
-   setzt nav.js zusätzlich die Klasse "nav-up" - dann dockt das Panel
-   stattdessen mit der UNTERKANTE oberhalb der Kugel an und zieht sich nach
-   oben statt nach unten zusammen. */
+   - siehe nav.js) - beide jetzt auf dem einzelnen .nav-item, nicht mehr
+   global auf <nav>, damit die drei Panels unabhängig voneinander auf-/
+   zugehen (immer nur eins gleichzeitig, siehe nav.js).
+   z-index bewusst HÖHER als .nav-ball (501): im gestapelten (kleinen)
+   Zustand sitzen die drei Kugeln eng übereinander - ein geöffnetes Panel
+   soll die darunter liegenden Kugeln sichtbar überlagern, nicht darunter
+   verschwinden. */
 .nav-dropdown {
   position: fixed;
-  top: var(--nav-dropdown-edge, 54px);
-  right: var(--nav-edge);
   min-width: 200px;
   background: var(--cloud);
   border: 1px solid var(--line);
   box-shadow: 0 12px 32px rgba(0,0,0,0.18);
   padding: 8px 0;
-  z-index: 500;
+  z-index: 502;
 
-  transform-origin: top right;
   transform: scale(0);
   opacity: 0;
   pointer-events: none;
   transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.3s ease;
 }
-.site-nav.nav-up .nav-dropdown {
-  top: auto;
-  bottom: var(--nav-dropdown-edge, 54px);
-  transform-origin: bottom right;
-}
-.site-nav:focus-within .nav-dropdown,
-.site-nav.open .nav-dropdown {
+.nav-item:focus-within .nav-dropdown,
+.nav-item.open .nav-dropdown {
   transform: scale(1);
   opacity: 1;
   pointer-events: auto;
@@ -690,6 +674,16 @@ body {
   transition: color 0.2s ease;
 }
 .nav-link:last-child { border-bottom: none; }
+
+/* Platzhalter für noch nicht verfügbare Menüpunkte (z.B. englische Version,
+   solange es die Seite noch nicht gibt) - optisch erkennbar deaktiviert,
+   aber Klick schließt das Dropdown trotzdem ganz normal (kein Link, also
+   keine Navigation). */
+.nav-link.nav-link-disabled {
+  color: var(--line);
+  cursor: default;
+}
+.nav-link.nav-link-disabled:hover { color: var(--line); }
 .nav-link:hover { color: var(--gold); }
 
 /* ---------- Footer ---------- */

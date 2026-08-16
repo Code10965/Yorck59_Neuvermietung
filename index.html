@@ -204,7 +204,7 @@
 
   <footer class="site-footer">
     <p class="mono-label footer-label">
-      Verfügbar ab 01.12.<br>Besichtigung nach Absprache<br>Kein Massenbewerbungs-Casting
+      Verfügbar ab 01.12. · Besichtigung nach Absprache · Kein Massenbewerbungs-Casting
     </p>
     <p class="mono-label footer-label" style="margin-top: 12px;">
       <a href="impressum.html" style="color: inherit; text-decoration: none;">Impressum</a> · <a href="datenschutz.html" style="color: inherit; text-decoration: none;">Datenschutz</a>
@@ -215,19 +215,53 @@
        aller Sections platziert (transform-Vorfahren würden "position: fixed"
        sonst relativ zu sich selbst statt zum Viewport setzen). -->
   <nav class="site-nav" id="site-nav">
-    <button class="nav-ball" id="nav-toggle" aria-label="Menü öffnen" aria-expanded="false">
-      <span class="nav-ball-visual">
-        <svg class="nav-ball-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
-          <line class="nav-toggle-line nav-toggle-line-1" x1="4" y1="7" x2="20" y2="7"></line>
-          <line class="nav-toggle-line nav-toggle-line-2" x1="4" y1="12" x2="20" y2="12"></line>
-          <line class="nav-toggle-line nav-toggle-line-3" x1="4" y1="17" x2="20" y2="17"></line>
-        </svg>
-      </span>
-    </button>
+    <!-- Kontakt: springt zur Kontakt-Sektion, wie der "Kontakt"-Link im Menü -->
+    <div class="nav-item" id="nav-contact" data-nav-item data-nav-slot="2">
+      <button class="nav-ball" id="contact-toggle" aria-label="Kontakt" aria-expanded="false">
+        <span class="nav-ball-visual">
+          <span class="nav-ball-glyph">@</span>
+        </span>
+      </button>
+      <div class="nav-dropdown" id="contact-dropdown">
+        <a class="nav-link" href="#section-contact">Email</a>
+      </div>
+    </div>
+
+    <!-- Sprache: zeigt nur die jeweils NICHT aktive Sprache an. Verlinkt aktuell
+         auf eine noch nicht existierende englische Vorlage - bewusste
+         Vorbereitung für später. -->
+    <div class="nav-item" id="nav-globe" data-nav-item data-nav-slot="1">
+      <button class="nav-ball" id="globe-toggle" aria-label="Sprache wechseln" aria-expanded="false">
+        <span class="nav-ball-visual">
+          <svg class="nav-ball-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <circle cx="12" cy="12" r="8.5"></circle>
+            <ellipse cx="12" cy="12" rx="3.6" ry="8.5"></ellipse>
+            <line x1="3.5" y1="12" x2="20.5" y2="12"></line>
+          </svg>
+        </span>
+      </button>
+      <div class="nav-dropdown" id="globe-dropdown">
+        <span class="nav-link nav-link-disabled">Under Construction</span>
+      </div>
+    </div>
+
+    <!-- Menü -->
+    <div class="nav-item" id="nav-menu" data-nav-item data-nav-slot="0">
+      <button class="nav-ball" id="nav-toggle" aria-label="Menü öffnen" aria-expanded="false">
+        <span class="nav-ball-visual">
+          <svg class="nav-ball-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <line class="nav-toggle-line nav-toggle-line-1" x1="4" y1="7" x2="20" y2="7"></line>
+            <line class="nav-toggle-line nav-toggle-line-2" x1="4" y1="12" x2="20" y2="12"></line>
+            <line class="nav-toggle-line nav-toggle-line-3" x1="4" y1="17" x2="20" y2="17"></line>
+          </svg>
+        </span>
+      </button>
+      <div class="nav-dropdown" id="nav-dropdown" data-nav-links></div>
+    </div>
+
     <div class="nav-logo-peek" id="nav-logo-peek">
       <img src="logo/Logo_NeuesZuhause.png" alt="Zuhause. Ankommen." />
     </div>
-    <div class="nav-dropdown" id="nav-dropdown" data-nav-links></div>
   </nav>
 
   <!-- Lightbox-Overlay: bewusst hier außerhalb aller Sections, direkt vor </body>.
